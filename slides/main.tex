@@ -1,0 +1,143 @@
+\input{preamble}
+
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}{Preliminaries - Number fields}
+	Let 
+	\(
+		n= 2^m
+	\)
+	where $m$ is a positive integer. Our field of coefficients will
+	be
+	\[
+		K_n= \mathbb{Q}[X]/
+			\langle
+			X^n + 1
+			\rangle
+	\]
+	and its ring of integers is 
+	\(
+		R_n= \mathbb{Z}[X]/
+			\langle
+			X^n + 1
+			\rangle.
+	\)
+
+	\bigskip
+	For
+	\(
+		f \in K_n
+	\)
+	we write
+	\[
+		f= f[0] + f[1]X + \cdots + f[n-1]X^{n-1}
+	\]
+	and its \textbf{conjugate} is given by
+	\[
+		f^*= f[0] - f[n-1]X - \cdots - f[1]X^{n-1}.
+	\]
+\end{frame}
+
+% nextframe
+\begin{frame}{Preliminaries - Matrices and inner products}
+	Given a matrix
+	\(
+		B \in K_n^{r\times s}
+	\)
+	its \textbf{Hermitian adjoint} is the matrix $B^*$ obtained by taking the
+	conjugate of each entry of $B^{\textsf{t}}$, the transpose of $B$.
+
+	\bigskip
+	\bigskip
+	\textbf{\large Inner products}
+
+	The inner product on $K_n$ over $\mathbb{Q}$ is defined as
+	\[
+		\begin{array}{c}
+			\encl{\cdot, \cdot} : K_n\times K_n \to \mathbb{Q}\\
+			\encl{f, g}=
+			\frac{1}{n} \mathrm{Tr}(f^*g).
+		\end{array}
+	\]
+	where $\mathrm{Tr}$ denotes the algebraic trace over the extension
+	\(
+		K_n/\mathbb{Q}.
+	\)
+
+\end{frame}
+
+% nextframe
+\begin{frame}{Preliminaries - Matrices and inner products}
+	If
+	\(
+		B \in K_n^{r\times r}
+	\)
+	is an invertible matrix, then
+	\(
+		Q= B^*B
+	\)
+	defines an inner product on $K_n^r$ via
+	\[
+		\encl{\mathbf{f}, \mathbf{g}}_Q=
+		\frac{1}{n}\mathrm{Tr}(
+		\mathbf{f}^* Q \mathbf{g}).
+	\]
+\end{frame}
+
+% nextframe
+\begin{frame}{Preliminaries - Some examples}
+	Let's take $n= 4$, and let
+	\[
+		\left\{
+		\begin{array}{l}
+			f= 1 - 2X + 3X^2 + 4X^3\\
+			g= 3 - X^3
+		\end{array}
+		\right.
+	\]
+	Then
+	\[
+		\begin{array}{l}
+			f^*g = (1 - 4X - 3X^2 + 2X^3)(3 - X^3)\\
+%			(3 - 12X -9X^2 + 6X^3) - (4 + 3X -2X^2 + X^3) =\\
+			= -1 - 15X - 7X^2 + 5X^3.
+		\end{array}
+	\]
+	Its matrix representation over $\mathbb{Q}$ in the basis
+	\(
+		1, X, X^2, X^3
+	\)
+	is
+	\[
+		(f^*g)=
+		\left(
+		\begin{array}{cccc}
+			-1 & -5 & 7 & 15\\
+			-15 & -1 & -5 & 7\\
+			-7 & -15 & -1 & -5\\
+			5 & -7 & -15 & -1\\
+		\end{array}
+	\right)
+	\]
+	and therefore
+	\(
+		\encl{f,g} = \frac{1}{4}\mathrm{Tr}(f^*g) = -1.
+	\)
+\end{frame}
+
+% nextframe
+\begin{frame}{Preliminaries - Some examples}
+	Consider the matrix
+	\[
+		B=
+		\left(
+			\begin{array}{cc}
+				1 + X^2 & X\\
+				-X^3 & 1 - X^2
+			\end{array}
+		\right)
+	\]
+\end{frame}
+
+\end{document}
