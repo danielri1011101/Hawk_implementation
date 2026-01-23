@@ -23,4 +23,37 @@ polynomials in the equation are in
 	\mathbb{Z}[X]/\encl{X^n + 1}.
 \)
 
+\subsection{Resultants} The resultant of two polynomials $f$ and $g$ is zero if and
+only if they have a common root. Thus one way to define it is
+\[
+	\mathrm{Res}(f,g)= g_n^m\prod_{i=0}^{n-1}f(\gamma_i)
+\]
+where the $\gamma_i$ are the roots of $g$ and $m$ is the degree of $f$.
+
+Given a monic polynomial
+\(
+	\phi \in \mathbb{C}[X]
+\)
+of degree $n$ and a polynomial
+\(
+	f \in \mathbb{C}[X]/\encl{\phi}
+\)
+we denote by $\rema{f}{g}$ the matrix whose $j-$th row consists of the
+coefficients of
+\(
+	x^{j-1}f \mod \phi,
+\)
+as in
+\[
+	\rema{f}{g} =
+	\left[
+		\begin{array}{c}
+			f \mod \phi\\
+			Xf \mod \phi\\
+			\vdots\\
+			X^{n-1}f \mod \phi
+		\end{array}
+	\right]
+\]
+
 \end{document}
