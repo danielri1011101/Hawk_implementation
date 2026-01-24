@@ -23,12 +23,12 @@ polynomials in the equation are in
 	\mathbb{Z}[X]/\encl{X^n + 1}.
 \)
 
-\subsection{Resultants} The resultant of two polynomials $f$ and $g$ is zero if and
+\subsection{Resultants} The resultant of two polynomials $p$ and $q$ is zero if and
 only if they have a common root. Thus one way to define it is
 \[
-	\mathrm{Res}(f,g)= g_n^m\prod_{i=0}^{n-1}f(\gamma_i)
+	\mathrm{Res}(p,q)= p_n^m\prod_{i=0}^{n-1}q(\gamma_i)
 \]
-where the $\gamma_i$ are the roots of $g$ and $m$ is the degree of $f$.
+where the $\gamma_i$ are the roots of $p$ and $m$ is the degree of $q$.
 
 Given a monic polynomial
 \(
@@ -36,24 +36,76 @@ Given a monic polynomial
 \)
 of degree $n$ and a polynomial
 \(
-	f \in \mathbb{C}[X]/\encl{\phi}
+	p \in \mathbb{C}[X]/\encl{\phi}
 \)
-we denote by $\rema{f}{g}$ the matrix whose $j-$th row consists of the
+we denote by $\rema{p}{\phi}$ the matrix whose $j-$th row consists of the
 coefficients of
 \(
-	x^{j-1}f \mod \phi,
+	X^{j-1}p \mod \phi,
 \)
 as in
 \[
-	\rema{f}{g} =
+	\rema{p}{\phi} =
 	\left[
 		\begin{array}{c}
-			f \mod \phi\\
-			Xf \mod \phi\\
+			p \mod \phi\\
+			Xp \mod \phi\\
 			\vdots\\
-			X^{n-1}f \mod \phi
+			X^{n-1}p \mod \phi
 		\end{array}
 	\right]
 \]
 
+\bigskip
+Recall that if
+\(
+	\vec{x}= x_0, x_1, \ldots, x_{m-1}
+\)
+
+is a sequence of numbers, its $n-$th \emph{Vandermonde matrix} is given by
+
+\[
+	V(\vec{x},n)^i_j= x_i^j.
+\]
+
+In particular, given a polynomial $\phi$ with $n$ distinct roots over $\mathbb{C}$,
+we defie $V_\phi$ as the $n-$th Vandermonde matrix of its roots:
+
+\[
+	V_\phi=
+	\left[
+		\begin{array}{ccccc}
+			1 & \alpha_0 & \alpha_0^2 & \ldots & \alpha_0^{n-1}\\
+			1 & \alpha_1 & \alpha_1^2 & \ldots & \alpha_1^{n-1}\\
+			\vdots & \vdots & \ddots & & \vdots \\
+			 1 & \alpha_{n-1} & \alpha_{n-1}^2 & \ldots & \alpha_{n-1}^{n-1}\\
+		\end{array}
+	\right]
+\]
+
+\bigskip
+\begin{thm}
+	If the polynomial $g$ has $n$ distinct roots over $\mathbb{C}$ and $f$ has
+	degree less than $n$, then
+	\[
+		\mathrm{Res}(g,f) = \det \rema{f}{g}.
+	\]
+\end{thm}
+
+\begin{proof}
+	Let $D$ denote the diagonal matrix whose entries are the evaluations of $f$
+	at the roots of $g$. Then upon inspection it is easily seen that
+	\[
+			V_g (\rema{f}{g})^{\textsf{t}} = D V_g,
+	\]
+	and therefore
+	\[
+		(\rema{f}{g})^{\textsf{t}} = V_g^{-1} D V_g.
+	\]
+	The result then follows from the fact that
+	\(
+		\det\rema{f}{g} = \det(\rema{f}{g})^{\textsf{t}}
+	\)
+	and from the multiplicativity of the determinant.
+\end{proof}
 \end{document}
