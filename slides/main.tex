@@ -131,12 +131,111 @@
 	Consider the matrix
 	\[
 		B=
-		\left(
+		\left[
 			\begin{array}{cc}
 				1 + X^2 & X\\
 				-X^3 & 1 - X^2
 			\end{array}
-		\right)
+		\right]
+	\]
+\end{frame}
+
+% nextframe
+\begin{frame}{Hawk - Key generation (Overview)}
+	\textbf{Public key:} Hermitian matrix $Q \in R_n^{2\times 2}$.
+
+	\textbf{Secret key:} Invertible matrix $B \in R_n^{2\times 2}$.\pause
+
+	\bigskip
+	\begin{itemize}
+		\item Sample $2n$ integers to obtain polynomials
+			\(
+				f, g \in R_n.
+			\)\pause
+		\item Obtain solutions $F, G$ to the NTRU equation
+			\[
+				fG - gF = 1 \mod (X^n + 1).
+			\]\pause
+		\item The secret key is
+			\[
+				B \leftarrow
+				\left[
+					\begin{array}{cc}
+						f & F\\
+						g & G
+					\end{array}
+				\right].
+			\]
+		\item The public key is
+			\[
+				Q \leftarrow B^*B.
+			\]
+	\end{itemize}
+\end{frame}
+
+% nextframe
+\begin{frame}{NTRUsolve (Overview)}
+	\begin{itemize}
+		\item Let $\phi \in \mathbb{Z}[X]$ be an irreducible polynomial with
+			$n$ distinct roots over $\mathbb{C}$.
+		\item Let $f, g \in \mathbb{Z}[X]$ of degree less than $n$.
+		\item Let $q$ be a nonzero integer.
+	\end{itemize}
+
+	Our goal is to find integer polynomials $F$ and $G$ such that
+	\[
+		fG - gF = q \mod \phi.
+	\]\pause
+	By performing the \emph{Extended Division Algorithm} over polynomials, we
+	obtain
+	\(
+		s, s', t, t' \in \mathbb{Z}[X]
+	\)
+	such that
+	\[
+		\left\{
+			\begin{array}{l}
+				sf + s'\phi = R_f \in \mathbb{Z}\\
+				tg + t'\phi = R_g \in \mathbb{Z}
+			\end{array}
+		\right.
+	\]
+\end{frame}
+
+% nextframe
+\begin{frame}{NTRUsolve (Overview)}
+	Next, by performing the same algorithm over integers, we obtain
+	\(
+		u, v \in \mathbb{Z}
+	\)
+	such that
+	\[
+		uR_f + vR_g = \delta
+	\]
+	where $\delta$ is the greatest common divisor of the integers $R_f$ and
+	$R_g$.
+
+	\bigskip
+	Then if $\delta | q$,  all polynomials in the following relation have
+	integer coefficients:
+	\[
+		\left(
+			us\frac{q}{\delta}
+		\right)f
+		+
+		\left(
+			vt\frac{q}{\delta}
+		\right)g
+		= q
+	\]
+	and we obtain the solution
+	\[
+		\left\{
+			\begin{array}{c}
+				F= us\frac{q}{\delta}\\
+				G= -vt\frac{q}{\delta}
+			\end{array}
+		\right.
 	\]
 \end{frame}
 
