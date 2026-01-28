@@ -127,6 +127,96 @@
 \end{frame}
 
 % nextframe
+\begin{frame}{Discrete Gaussian Distribution}
+	It is well known that the integral
+	\[
+		\int_{-\infty}^\infty \exp(-\alpha x^2) dx
+	\]
+	converges for all positive constants $\alpha$.
+	
+	Consequently, the associated series
+	\[
+		\sum_{x \in \mathbb{Z}} \exp(-\alpha x^2)
+	\]
+	is convergent.
+\end{frame}
+
+% nextframe
+\begin{frame}{Discrete Gaussian Distribution}
+	Given a positive real constant $\sigma$, let
+	\[
+		\rho_\sigma(x)= \gdens{\sigma}{x}
+	\]
+	Then for any real number $c$ we define the \emph{Discrete Gaussian
+	Distribution} on
+	\(
+		2\mathbb{Z} + c
+	\)
+	with parameter $\sigma$, denoted
+	\(
+		D_{2\mathbb{Z} + c, \sigma}
+	\)
+	by the rule
+	\[
+		\Pr[X = x]=
+		\frac{\rho_\sigma(x)}
+		{
+			\sum_{z \in 2\mathbb{Z} + c} \rho_\sigma(z)
+		}.
+	\]
+
+	\bigskip
+	For higher dimensions $n > 1$, a sample
+	\(
+		\mathbf{x} \in 2\mathbb{Z}^n + \mathbf{c}
+	\)
+	with parameter $\sigma$ is obtained via $n$ independent samples
+	\(
+		x_i \leftarrow D_{2\mathbb{Z} + c_i}.
+	\) 
+\end{frame}
+
+% nextframe
+\begin{frame}{Structured $\leftrightarrow$ Unstructured}
+	\textbf{\large Vectorization of polynomials}
+
+	\medskip
+	Given a polynomial
+	\(
+		f \in K_n
+	\)
+	we have
+	\(
+		f = \sum_{i= 0}^{n-1}f[i] X^i
+	\)
+	where
+	\(
+		f[i] \in \mathbb{Q}
+	\)
+	for each $i$.
+	
+	\bigskip
+	Then the map
+	\[
+		\begin{array}{l}
+			\textsf{vec}: K_n \to \mathbb{Q}^n\\
+			f \mapsto
+			\left[
+				\begin{array}{l}
+					f[0]\\
+					\vdots\\
+					f[n-1]
+				\end{array}
+			\right]
+		\end{array}
+	\]
+	is clearly invertible and its restriction to $R_n$ takes values in
+	$\mathbb{Z}^n$.
+
+	This allows us to easily identify polynomials with vectors and vice-versa.
+\end{frame}
+
+% nextframe
 \begin{frame}{Preliminaries - Some examples}
 	Consider the matrix
 	\[
@@ -237,6 +327,77 @@
 			\end{array}
 		\right.
 	\]
+\end{frame}
+
+% nextframe
+\begin{frame}{Hawk - Signing (Overview)}
+	\textbf{Given:} Message $M$, Secret Key $B$.
+	\begin{enumerate}
+		\item Obtain a random bit vector of length $2n$ by hashing the
+			message:
+			\[
+				\mathbf{h} \leftarrow \textsf{H}(M)
+			\]
+		\item Interpret $\mathbf{h}$ as the corresponding
+			\(
+				\left[
+				\begin{array}{l}
+					h_0\\
+					h_1
+				\end{array}
+				\right]
+				\in R_n^2,
+			\)
+			multiply by the secret key $B$, and reduce the coefficients
+			modulo 2:
+			\[
+				\mathbf{t} \leftarrow (B\mathbf{h}) \mod 2.
+			\]
+		\item Sample a polynomial in the $2R_n^2-$coset of $\mathbf{t}$
+			using the discrete gaussian distribution with parameter 
+			$2\sigma_{\textsf{sign}}$:
+			\[
+				\begin{array}{c}
+					\mathbf{x} \leftarrow D_{2\mathbb{Z}^{2n} +
+					\mathbf{t}, 2\sigma_{\textsf{sign}}}\\
+					{\color{cgreen}
+						\mathbf{x} \in \mathbf{t} + 2R_n^2.
+					}
+				\end{array}
+			\]
+	\end{enumerate}
+\end{frame}
+
+% nextframe
+\begin{frame}{Hawk - Signing (Overview)}
+	\begin{enumerate}
+	\addtocounter{enumi}{3}
+	\item If it is not short enough, restart:
+		\[
+			\texttt{if}\ \Vert\mathbf{x}\Vert >
+			2n\cdot 4\sigma_{\textsf{verify}^2}\ 
+			\texttt{restart}
+		\]
+	\item The secret short vector $\mathbf{w}$ will be the preimage of
+		$\mathbf{x}$ under $B$. It is in the
+		$2R_n^2$-coset of $\mathbf{h}$ and its $Q$-norm is the same as the
+		euclidean norm of $\mathbf{x}$:
+		\[
+			\begin{array}{c}
+				\mathbf{w} \leftarrow B^{-1}\mathbf{x}\\
+				{\color{cgreen}
+					\mathbf{w} \in \mathbf{h} + 2R_n^2.
+				}
+			\end{array}
+		\]
+	\item The signature $\mathbf{s}$ is an element of $R_n^2$ which makes
+		the secret vector $\mathbf{w}$ publicly recoverable from
+		$\mathbf{h}$:
+		\[
+			\mathbf{s} \leftarrow \frac{1}{2}
+			(\mathbf{h}-\mathbf{w})
+		\]
+	\end{enumerate}
 \end{frame}
 
 \end{document}

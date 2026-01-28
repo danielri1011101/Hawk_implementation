@@ -7,9 +7,14 @@
 \usepackage{xcolor}
 \usepackage{graphicx}
 \usepackage{listings}
+\usepackage{lmodern}
 
 % Commands
 \newcommand{\encl}[1]{\langle {#1} \rangle}
+\newcommand{\gdens}[2]{\exp\left(\frac{-{#2}^2}{2{#1}^2} \right)}
+
+% Colors
+\definecolor{cgreen}{RGB}{32, 128, 32} % Comments green
 
 % Document heading
 \title{The HAWK digital signature scheme}
