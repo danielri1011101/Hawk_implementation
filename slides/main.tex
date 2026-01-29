@@ -331,12 +331,18 @@
 
 % nextframe
 \begin{frame}{Hawk - Signing (Overview)}
-	\textbf{Given:} Message $M$, Secret Key $B$.
+	\textbf{Given:} Message $M$, Secret Key $B$, Salt length $\ell$.
 	\begin{enumerate}
-		\item Obtain a random bit vector of length $2n$ by hashing the
-			message:
+		\item Obtain the coefficients of two random polynomials by hashing
+			the message with a uniformly sampled bit string called a
+			\emph{salt}:
 			\[
-				\mathbf{h} \leftarrow \textsf{H}(M)
+				\begin{array}{c}
+					\textsf{salt} \in \{0,1\}^\ell \leftarrow
+					\textsf{Rnd}(\ell)\\
+					\mathbf{h} \leftarrow
+					\textsf{H}(M \Vert \textsf{salt}) 
+				\end{array}
 			\]
 		\item Interpret $\mathbf{h}$ as the corresponding
 			\(
@@ -353,25 +359,25 @@
 			\[
 				\mathbf{t} \leftarrow (B\mathbf{h}) \mod 2.
 			\]
-		\item Sample a polynomial in the $2R_n^2-$coset of $\mathbf{t}$
-			using the discrete gaussian distribution with parameter 
-			$2\sigma_{\textsf{sign}}$:
-			\[
-				\begin{array}{c}
-					\mathbf{x} \leftarrow D_{2\mathbb{Z}^{2n} +
-					\mathbf{t}, 2\sigma_{\textsf{sign}}}\\
-					{\color{cgreen}
-						\mathbf{x} \in \mathbf{t} + 2R_n^2.
-					}
-				\end{array}
-			\]
 	\end{enumerate}
 \end{frame}
 
 % nextframe
 \begin{frame}{Hawk - Signing (Overview)}
 	\begin{enumerate}
-	\addtocounter{enumi}{3}
+	\addtocounter{enumi}{2}
+	\item Sample a polynomial in the $2R_n^2-$coset of $\mathbf{t}$
+		using the discrete gaussian distribution with parameter 
+		$2\sigma_{\textsf{sign}}$:
+		\[
+			\begin{array}{c}
+				\mathbf{x} \leftarrow D_{2\mathbb{Z}^{2n} +
+				\mathbf{t}, 2\sigma_{\textsf{sign}}}\\
+				{\color{cgreen}
+					\mathbf{x} \in \mathbf{t} + 2R_n^2.
+				}
+			\end{array}
+		\]
 	\item If it is not short enough, restart:
 		\[
 			\texttt{if}\ \Vert\mathbf{x}\Vert >
@@ -390,14 +396,118 @@
 				}
 			\end{array}
 		\]
-	\item The signature $\mathbf{s}$ is an element of $R_n^2$ which makes
-		the secret vector $\mathbf{w}$ publicly recoverable from
-		$\mathbf{h}$:
+	\end{enumerate}
+\end{frame}
+
+% nextframe
+\begin{frame}{Hawk Signing (Overview)}
+	\begin{enumerate}
+		\addtocounter{enumi}{5}
+		\item The signature consists of the salt together with a vector
+			$\mathbf{s}\in R_n^2$, such that the secret vector
+			$\mathbf{w}$ can be publicly recovered from it and
+			$\mathbf{h}$:
 		\[
-			\mathbf{s} \leftarrow \frac{1}{2}
-			(\mathbf{h}-\mathbf{w})
+			\begin{array}{c}
+				\mathbf{s} \leftarrow \frac{1}{2} (\mathbf{h}-\mathbf{w})\\
+				\textsf{sig} \leftarrow (\textsf{salt}, \mathbf{s}).
+			\end{array}
 		\]
 	\end{enumerate}
+\end{frame}
+
+% nextframe
+\begin{frame}{Hawk Signing - \emph{Example}}
+	
+	\bigskip
+	{\large \color{blue} (Step 1)}
+
+	For $n= 4$, let the secret key be
+	\[
+		B=
+		\left[
+			\begin{array}{cc}
+				1 + X^2 & X\\
+				-X^3 & 1 - X^2
+			\end{array}
+		\right]
+	\]
+	and let the hash of the message $\mathsf{H}(M)$ be 
+	\[
+		\mathbf{h}= 10111100.
+	\]
+	Interpreting $\mathbf{h}$ as an element of $R_n^2$ gives
+	\[
+		\mathbf{h} =
+		\left[
+			\begin{array}{c}
+				1 + X^2 + X^3\\
+				1 + X
+			\end{array}
+		\right]
+	\]
+\end{frame}
+
+% nextframe
+\begin{frame}{Hawk Signing - \emph{Example}}
+	
+	\bigskip
+	{\large \color{blue} (Step 2)}
+
+	Multiplying $\mathbf{h}$ by the secret key gives
+	\[
+		\begin{array}{c}
+			B\mathbf{h}=
+			\left[
+				\begin{array}{cc}
+					1 + X^2 & X\\
+					-X^3 & 1 - X^2
+				\end{array}
+			\right]
+			\left[
+				\begin{array}{c}
+					1 + X^2 + X^3\\
+					1 + X
+				\end{array}
+			\right]\\
+			 \\
+			=
+			\left[
+				\begin{array}{c}
+					3X^2 + X^3\\
+					1 + 2X - 2X^3
+				\end{array}
+			\right]
+			\mod (X^4 + 1)
+		\end{array}
+	\]
+
+	Letting $\mathbf{t}$ be the result of taking residue modulo 2 of the
+	coefficients of $B\mathbf{h}$, we obtain
+	\[
+		\mathbf{t}=
+		\left[
+			\begin{array}{c}
+				X^2 + X^3\\
+				1
+			\end{array}
+		\right]
+	\]
+	and we have
+	\(
+		\mathbf{t} \sim B\mathbf{h} \mod 2R_n^2.
+	\)
+\end{frame}
+
+% nextframe
+\begin{frame}{Hawk Signing - Example}
+
+	{\large \color{blue} (Step 3)}
+
+	Interpreting $\mathbf{t}$ as a vector gives
+	\[
+		\mathbf{t} = 00111000
+	\]
 \end{frame}
 
 \end{document}
