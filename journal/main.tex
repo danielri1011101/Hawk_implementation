@@ -122,4 +122,211 @@ we defie $V_\phi$ as the $n-$th Vandermonde matrix of its roots:
 	\)
 	and from the multiplicativity of the determinant.
 \end{proof}
+
+\section{HawkSign example}
+	{\large \bf (Step 1)}
+
+	For $n= 4$, let the secret key be
+	\[
+		B=
+		\left[
+			\begin{array}{cc}
+				1 + X^2 & X\\
+				-X^3 & 1 - X^2
+			\end{array}
+		\right]
+	\]
+	and let the hash of the message and salt $\mathsf{H}(M\Vert \textsf{salt})$
+	be 
+	\[
+		\mathbf{h}= 10111100.
+	\]
+	Interpreting $\mathbf{h}$ as an element of $R_n^2$ gives
+	\[
+		\mathbf{h} =
+		\left[
+			\begin{array}{c}
+				1 + X^2 + X^3\\
+				1 + X
+			\end{array}
+		\right]
+	\]
+
+	
+	\bigskip
+	{\large \bf (Step 2)}
+
+	Multiplying $\mathbf{h}$ by the secret key gives
+	\[
+		\begin{array}{c}
+			B\mathbf{h}=
+			\left[
+				\begin{array}{cc}
+					1 + X^2 & X\\
+					-X^3 & 1 - X^2
+				\end{array}
+			\right]
+			\left[
+				\begin{array}{c}
+					1 + X^2 + X^3\\
+					1 + X
+				\end{array}
+			\right]\\
+			 \\
+			=
+			\left[
+				\begin{array}{c}
+					3X^2 + X^3\\
+					1 + 2X - 2X^3
+				\end{array}
+			\right]
+			\mod (X^4 + 1)
+		\end{array}
+	\]
+
+	Letting $\mathbf{t}$ be the result of taking residue modulo 2 of the
+	coefficients of $B\mathbf{h}$, we obtain
+	\[
+		\mathbf{t}=
+		\left[
+			\begin{array}{c}
+				X^2 + X^3\\
+				1
+			\end{array}
+		\right]
+	\]
+	and we have
+	\(
+		\mathbf{t} \sim B\mathbf{h} \mod 2R_n^2.
+	\)
+
+	{\large \bf (Step 3)}
+
+	Interpreting $\mathbf{t}$ as a vector gives
+	\[
+		\mathbf{t} =
+		\left[0, 0, 1, 1, 1, 0, 0, 0\right]^{\mathsf{t}}
+	\]
+	We now perform discrete gaussian sampling on the lattice
+	\(
+		2\mathbb{Z}^{2n} + \mathbf{t},
+	\)
+	denoted
+	\[
+		\mathbf{x} \leftarrow D_{2\mathbb{Z}^{2n} + \mathbf{t}},
+	\]
+	and suppose we obtain
+	\[
+		\begin{array}{c}
+			\mathbf{x} = \mathbf{t} +
+			\left[2, 0, -2, 0, 2, 0, -2, 0\right]^{\mathsf{t}}\\
+			=
+			[2, 0, -1, 1, 3, 0, -2, 0]^\mathsf{t}
+		\end{array}
+	\]
+
+	{\large \bf (Step 4)}
+
+	Suppose our verification standard deviation is
+	\[
+		\sigma_{\textsf{verify}}= 1.425.
+	\]
+	Then the test of whether or not $\mathbf{x}$ is short enough consists of
+	checking if the inequality
+	\[
+		\Vert\mathbf{x}\Vert^2 \leq
+		4\sigma_{\textsf{verify}}^2\cdot 2n
+	\]
+	holds, which in this case is
+	\[
+		19 \leq 64.98
+	\]
+	and therefore we sampled a short enough vector.
+
+	{\large \bf (Step 5)}
+
+	Interpreting $\mathbf{x}$ as an element of $R_n^2$ gives
+	\[
+		\mathbf{x} =
+		\left[
+			\begin{array}{c}
+				2 - X^2 + X^3\\
+				3 - 2X^2
+			\end{array}
+		\right]
+	\]
+	and the $Q$-short vector $\mathbf{w}$ in the coset of $\mathbf{h}$ is
+	obtained as
+	\[
+		\begin{array}{c}
+			\mathbf{w}= B^{-1}\mathbf{x}\\
+			 \\
+			=
+			\left[
+				\begin{array}{cc}
+					1-X^2 & -X\\
+					X^3 & 1+X^2
+				\end{array}
+			\right]
+			\left[
+				\begin{array}{c}
+					2-X^2+X^3\\
+					3-2X^2
+				\end{array}
+			\right]\\
+			 \\
+			=
+			\left[
+				\begin{array}{c}
+					1 - 2X - 3X^2 + 3X^3\\
+					5 + X + 2X^3
+				\end{array}
+			\right]
+		\end{array}
+	\]
+
+	{\large \bf (Step 6)}
+
+	Then the signature vector is computed as
+	\[
+		\begin{array}{c}
+			\mathbf{s}= \frac{1}{2}(\mathbf{h} - \mathbf{w})\\
+			=
+			\frac{1}{2}
+			\left(
+				\left[
+					\begin{array}{c}
+						1 + X^2 + X^3\\
+						1 + X
+					\end{array}
+				\right]
+				-
+				\left[
+					\begin{array}{c}
+						1 - 2X - 3X^2 + 3X^3\\
+						5 + X + 2X^3
+					\end{array}
+				\right]
+			\right)\\
+			=
+			\frac{1}{2}
+			\left[
+				\begin{array}{c}
+					-2X + 4X^2 - 2X^3\\
+					-4 - 2X^3
+				\end{array}
+			\right]\\
+			=
+			\left[
+				\begin{array}{c}
+					-X + 2X^2 - X^3\\
+					-2 - X^3
+				\end{array}
+			\right]
+		\end{array}
+	\]
+	and we return
+	\[
+		(\mathbf{s}, \textsf{salt}).
+	\]
 \end{document}
