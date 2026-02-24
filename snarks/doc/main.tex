@@ -1,0 +1,47 @@
+\input{preamble}
+
+\begin{document}
+\maketitle
+
+\section{Proofs of knowledge}
+	\begin{itemize}
+		\item Two characters: $\mathcal{V}$ (Verifier, computationally weak)
+			and $\mathcal{P}$ (Prover, computationally strong).
+		\item They exchange information about an NP relation $R \subset
+			X \times W$ of $($\emph{statement, witness}$)$ pairs.
+		\item Given a statement $x$, $\mathcal{P}$ must
+			``convince''/\emph{prove} to $\mathcal{V}$ that she knows
+			a witness $w$ such that $(x,w) \in R$ (Hash functions,
+			graph problems\ldots).
+	\end{itemize}
+
+
+\section{SNARKs}
+	For a knowledge proof system $(\mathcal{K}, \mathcal{P}, \mathcal{V})$ to be
+	a SNARK it must satisfy:
+	\begin{itemize}
+		\item \emph{Succinctness}: Proof must be small and verification
+			must be fast. Formally,
+			\[
+				\begin{array}{c}
+					|\pi| \in O(\log |T_R|)\\
+					\tau_{\mathcal{V}}(x, \pi) \in O(\log |T_R|)
+				\end{array}
+			\]
+			where $T_R$ denotes a Turing machine that verifies the
+			relation $R$.
+		\item \emph{Non-interactiveness}: After $\mathcal{P}$ and $\mathcal{V}$
+			are both given the statement $x$, $\mathcal{P}$ sends his
+			proof $\pi$ without receiving any input from $\mathcal{V}$,
+			and verification also doesn't require any interaction with
+			the prover.
+	\end{itemize}
+
+
+\section{Completeness, knowledge soundness}
+	\begin{itemize}
+		\item Completeness:
+		\item Soundness: for every adversary. extractor.
+	\end{itemize}
+
+\end{document}
