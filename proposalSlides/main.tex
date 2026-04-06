@@ -115,4 +115,39 @@ $x$.
 		called the \textbf{extractor}}
 	\end{quote}
 \end{frame}
+
+%nextframe
+\begin{frame}{Reductions of Knowledge}
+	Contemporary arguments of knowledge such as \textrm{LatticeFold}
+	require a generalization of ARKs called \emph{reductions of knowledge
+	(RoK)}.
+	\begin{definition}
+		Let $\kre_1, \kre_2$ be NP relations of statement-witness
+		pairs. A \emph{reduction of knowledge} from $\kre_1$ to
+		$\kre_2$ is a protocol $\prod_{\pvr,\vfr}$ such that
+		\begin{itemize}
+			\item $\pvr$ has input $(x_1,w_1) \in \kre_1$
+			\item $\vfr$ has input $x_1$
+			\item They interact and as a result
+				\[
+					\left\{
+						\begin{array}{l}
+							\mbox{$\pvr$ and $\vfr$
+							both output $x_2$}\\
+							\mbox{$\pvr$ outputs
+							$w_2$}\\
+							(x_2, w_2) \in \kre_2.
+						\end{array}
+					\right.
+				\]
+			\item $\prod_{\pvr,\vfr}$ is complete and *sound*
+		\end{itemize}
+	\end{definition}
+\end{frame}
+
+%nextframe
+\begin{frame}{Reductions of Knowledge}
+	\large
+	\ctikzfig{rok}
+\end{frame}
 \end{document}
