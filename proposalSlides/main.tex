@@ -4,6 +4,115 @@
 \frame{\titlepage}
 
 \begin{frame}{Arguments of Knowledge}
-jajaj
+$\pvr$ wants to convince $\vfr$ that it knows a witness $w$ to a statement
+$x$.
+\begin{example}
+	\begin{enumerate}
+		\item
+		\[
+			\left\{
+			\begin{array}{l}
+				x= \mbox{\emph{``There exists
+				$\sigma$ such that
+				SHA256$(\sigma)$
+				is equal to 7''.}}\\
+				w=\  \mbox{Some string such that
+				SHA256$(w) = 7$.} 
+			\end{array}
+			\right.
+		\]
+		\item
+		\[
+			\left\{
+				\begin{array}{l}
+					x= \mbox{\emph{``The dodecahedron
+					defines a hamiltonian graph''.}}\\
+					w= \mbox{A hamiltonian cycle in
+					the dodecahedron.}
+				\end{array}
+			\right.
+		\]
+	\end{enumerate}
+\end{example}
+\end{frame}
+
+%nextframe
+\begin{frame}{Arguments of Knowledge}
+\begin{example}
+	\begin{enumerate}
+		\setcounter{enumi}{2}
+		\item
+		\[
+			\left\{
+				\begin{array}{l}
+					x= \mbox{``There exists more than
+					one $Q$-short vector}\\
+					\mbox{in the lattice
+					$Bh+t$''.}\\
+					w= \mbox{A HAWK signature.}
+				\end{array}
+			\right.
+		\]
+	\end{enumerate}
+\end{example}
+
+\begin{block}{Proofs of knowledge}
+	A \emph{proof of knowledge} is some message $\pi$ that $\pvr$ sends
+	to $\vfr$ to convince her that he knows $w$. 
+	\begin{itemize}
+		\item The \textbf{trivial proof} Is when $\pi= w$. It is
+			impractical because (1) It could occupy too much
+			space, and (2) Assumes $\vfr$ has the same
+			computational power as $\pvr$.
+	\end{itemize}
+\end{block}
+\end{frame}
+
+%nextframe
+\begin{frame}{Arguments of Knowledge}
+	\Large
+	\[
+		\tikzfig{tradark}
+	\]
+	\normalsize
+	\begin{definition}
+		An \emph{argument of knowledge (ARK)} between a prover $\pvr$
+		and a verifier $\vfr$ is an interaction where
+		\begin{itemize}
+			\item $\pvr$ has inputs $x$ and $w$, $\vfr$ has input $x$
+			\item $\pvr$ outputs $\pi$ and sends it to
+				$\vfr$
+			\item $\vfr$ outputs $0/1$ dependending on whether
+				it rejects or accepts $\pi$
+		\end{itemize}
+	\end{definition}
+\end{frame}
+
+%nextframe
+\begin{frame}{ARKs - Formal properties}
+	In cryptography, the statement-witness pairs $(x,w)$ must take values
+	in an NP relation $\kre$. Also, the protocol must be
+	\emph{complete and sound}. Informally, this means
+	\[
+		(x,w) \in \kre \iff \mbox{$\vfr$ accepts $\pi$}
+	\]
+	where
+	\begin{itemize}
+		\item \textbf{Completeness} corresponds to
+			\[
+				(x,w) \in \kre \Rightarrow
+				\mbox{$\vfr$ accepts $\pi$}
+			\]
+		\item \textbf{Soundness} ``corresponds'' to
+			\[
+				\mbox{$\vfr$ accepts $\pi$} \Rightarrow
+				(x,w) \in \kre
+			\]
+	\end{itemize}
+	\begin{quote}
+		WARNING!! \emph{Soundness is actually defined in terms of a malicious
+		prover $\pvr^*$ and an aditional algorithm $\mathcal{E}$
+		called the \textbf{extractor}}
+	\end{quote}
 \end{frame}
 \end{document}
