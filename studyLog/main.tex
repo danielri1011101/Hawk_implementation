@@ -1,0 +1,72 @@
+\input{preamble}
+
+\begin{document}
+\section{KP22 - Algebraic reductions of knowledge}
+$\bullet$ A difficulty from the lack of a unifying framework for ARK composition
+is proving soundness, since each component of a complicated argument requires
+its own soundness proof. Afterwards these piece-wise proofs must be shown
+to ``add up to'' the soundness of the entire scheme, and this has been a
+difficult task.
+
+\medskip
+$\bullet$ Public-coin setting, tree special soundness and its modularity consequences,
+knowledge error= extractor's failure probability.
+
+\medskip
+$\bullet$ ``As a concrete example, we show that an argument for NP can be modularly
+implemented in our framework by using both sequential and parallel composition''.
+
+\medskip
+$\bullet$ Tree special soundess implies their notion of soundness.
+
+\medskip
+$\bullet$ Recursive ARGUMENTS over Homomorphic structures (say rings) $\to$
+Tensor REDUCTION of KNOWLEDGE.
+
+\medskip
+$\bullet$ Leverage homomorphic structure to improve both asymptotics and concrete
+efficiency.
+
+\medskip
+$\bullet$ Tensor reduction: information-theoretic protocol.
+
+\medskip
+$\bullet$ Sum-check protocol : ARKs $\leftrightarrow$ Tensor reduction : RoKs.
+
+\medskip
+$\bullet$ Reduction= (completeness1, soundness1) $\to$ (completeness2, soundness2)
+
+\medskip
+$\bullet$ \textbf{Sampling set.}
+Let $M$ be an $R$-module. Then $Q \subset R$ is a \emph{sampling set} for
+$M$ if for any two $q_1, q_2 \in Q$ the map
+\[
+	\begin{array}{c}
+		\phi: M \to M\\
+		m \mapsto (q_1 - q_2)m
+	\end{array}
+\]
+is injective.
+
+\medskip
+$\bullet$ \textbf{Coset equality assumption.} Given $u_1, \ldots, u_n$ and
+$v_1, \ldots, v_n$ there exists a polynomial time algorithm to check
+\[
+	\sum_{i \in [n]} u_i\otimes v_i = 0.
+\]
+
+\medskip
+$\bullet$ **Where in the paper will they non-trivially assume the coset equality
+assumption?**
+
+\medskip
+$\bullet$ \textbf{Public reducibility.} The verifier's output statement $u_2$
+can be deterministically recovered from the public parameters, input statement
+$u_1$ and the interaction transcript.
+
+\section{KST21 - Nova}
+$\bullet$ Nova is non-interactive
+
+\medskip
+$\bullet$ ...Next comment...
+\end{document}
