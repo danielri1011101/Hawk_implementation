@@ -5,48 +5,45 @@ import numpy as np
 import random
 
 class BGW:
-    def __init__(self, n, t, q, xis, alpha):
+    def __init__(self, n, t, q, xis):
         self.field= galois.GF(q)
         self.nparties= n
         self.threshold= t
-        self.players= [Player(j, xis[j]) for j in range(n)]
-        r_alphas= [alpha**i % q for i in range(n)]
+        self.players= [Player(j, xis[j], self) for j in range(n)]
+        E= self.field
+        alph= E.primitive_element
+        alphas= [alph ** j for j in range(n)]
+        self.alphas= alphas
 
 	# Shamir secret share of the value @x among the players
-    # via the polynomial with coefficients @coefs, which can be requested
-    # from one of the @self.players
+        # via the polynomial with coefficients @coefs, which can be requested
+        # from one of the @self.players
 	def shamir_ss(self,x,coefs):
-        poly= galois.Poly(coefs+[x], field=self.field)
-        gf= lambda y: self.field(y)
-        gf_sshare= [poly(gf(a)) for a in self.r_alphas]
-        sshare= gf_sshare.tolist()
-        n= self.nparties
-        for j in range(n):
-            player= self.players[j]
-            player.secret_share= sshare[j]
-        
+            poly= galois.Poly(coefs+[x], field=self.field)
+            gf_sshare= poly(self.alphas)
+            sshare= gf_sshare.tolist()
+            n= self.nparties
+            for j in range(n):
+                player= self.players[j]
+                player.secret_share= sshare[j]
+            
 
 class Player:
-    def __init__(self, i, xi):
+    def __init__(self, i, xi, bgw):
         self.id= i
-        self.poly_coefs= None
         self.secret_share= xi #Initially the player holds its input
+        self.bgw= bgw
+        self.poly_coefs= None
+
+    def random_polynomial(self):
+        E= self.bgw.field
+        q= E.order
+        t= self.bgw.threshold
+        coefs= random.choices([j for j in range(q)], k=t)
+        self.poly_coefs= coefs
 
     # Random polynomial coefficients for Shamir secret-sharing.
-    def random_polynomial(self, t, q):
-        cs= [a for a in range(q)]
-        self.poly_coefs= random.choices(cs, k=t)
 
 # Operations modulo 7
-alphas= [1,3,2,6,4]
-
-B= [[a**k % 7 for a in alphas] for k in range(5)]
-
-for k in range(5):
-    print(B[k])
-
-F7= galois.GF(7)
-points= F7(alphas)
-
 xs= [4,5,2,2,3]
-shamir_ss(xs)
+# Circuit (+ (* (* x0 x1) x2) (+ x3 x4))
